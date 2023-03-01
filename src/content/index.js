@@ -34,6 +34,7 @@ if (document.readyState !== 'complete') {
             // 答复
             // alert(res)
             console.log(response, '---答复');
+
             let res = JSON.parse(response);
 
             var theadDatas = [
@@ -45,9 +46,9 @@ if (document.readyState !== 'complete') {
               '购买渠道',
               '地区',
               '设备',
-              '支付时间',
-              '注册时间',
               '下单时间',
+              '注册时间',
+              '支付时间',
               '支付状态',
               '订阅',
               '订单金额',
@@ -60,10 +61,24 @@ if (document.readyState !== 'complete') {
 
             // 创建table
             var table = document.createElement('table');
-            table.border = '1px';
-            table.style.textAlign = 'center';
-            // document.body.appendChild(table)
-            console.log('gs---------', gs);
+            const closeBtn = document.createElement('div');
+            closeBtn.style.height = '20px';
+            closeBtn.style.width = '100px';
+            closeBtn.style.backgroundColor = 'rgb(251, 188, 4)';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '-20px';
+            closeBtn.style.right = '0';
+            closeBtn.textContent = '关闭';
+            closeBtn.style.borderRadius = '3px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.textAlign = 'center';
+            closeBtn.addEventListener('click', () => {
+              table.style.opacity = '0';
+              setTimeout(() => {
+                table.style.display = 'none';
+              }, 1000);
+            });
+            table.appendChild(closeBtn);
             // gs.appendChild(table);
             document.body.appendChild(table);
             table.className = 'admin-info';
@@ -75,6 +90,7 @@ if (document.readyState !== 'complete') {
             table.style.zIndex = '9999';
             table.style.opacity = '0.75';
             table.style.transition = 'opacity 1s;';
+            table.style.border = '1px';
             // 创建thead
             var thead = document.createElement('thead');
             table.appendChild(thead);
@@ -85,6 +101,9 @@ if (document.readyState !== 'complete') {
             tr.style.backgroundColor = 'rgb(194, 231, 255)';
             thead.appendChild(tr);
             // 创建thead中的th
+            if (tbodyDatas.length > 1) {
+              tbodyDatas = [];
+            }
             for (var i = 0; i < theadDatas.length; i++) {
               var th = document.createElement('th');
               th.style.padding = '5px 20px';
@@ -96,12 +115,7 @@ if (document.readyState !== 'complete') {
             // 创建tbody
             var tbody = document.createElement('tbody');
             table.appendChild(tbody);
-            table.addEventListener('click', () => {
-              table.style.opacity = '0';
-              setTimeout(() => {
-                table.style.display = 'none';
-              }, 1000);
-            });
+
             // 创建tbody中的tr td
             for (var i = 0; i < tbodyDatas.length; i++) {
               // 创建tbody中的tr
@@ -139,7 +153,7 @@ if (document.readyState !== 'complete') {
             }
           },
         );
-      }, 1000);
+      }, 16);
     }
   };
 
@@ -147,10 +161,10 @@ if (document.readyState !== 'complete') {
     let xToken = '';
     setTimeout(() => {
       chrome.storage.sync.get(['xToken'], function (item) {
-        console.log(item);
+        console.log(item, '---tokenObj');
         xToken = item.xToken;
         console.log(JSON.stringify(item) === '{}');
-        if (JSON.stringify(item) === '{}') {
+        if (!item.xToken) {
           const xToken = localStorage.getItem('token');
           chrome.storage.sync.set({ xToken: xToken }, function () {
             console.log('设置token');
@@ -184,9 +198,9 @@ if (document.readyState !== 'complete') {
               '购买渠道',
               '地区',
               '设备',
-              '支付时间',
-              '注册时间',
               '下单时间',
+              '注册时间',
+              '支付时间',
               '支付状态',
               '订阅',
               '订单金额',
@@ -199,6 +213,24 @@ if (document.readyState !== 'complete') {
 
             // 创建table
             var table = document.createElement('table');
+            const closeBtn = document.createElement('div');
+            closeBtn.style.height = '20px';
+            closeBtn.style.width = '100px';
+            closeBtn.style.backgroundColor = 'rgb(251, 188, 4)';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '-20px';
+            closeBtn.style.right = '0';
+            closeBtn.textContent = '关闭';
+            closeBtn.style.borderRadius = '3px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.textAlign = 'center';
+            closeBtn.addEventListener('click', () => {
+              table.style.opacity = '0';
+              setTimeout(() => {
+                table.style.display = 'none';
+              }, 1000);
+            });
+            table.appendChild(closeBtn);
             table.border = '1px';
             table.style.textAlign = 'center';
             // document.body.appendChild(table)
@@ -222,6 +254,10 @@ if (document.readyState !== 'complete') {
             tr.style.height = '40px';
             tr.style.backgroundColor = 'rgb(194, 231, 255)';
             thead.appendChild(tr);
+            console.log(theadDatas, 'thData');
+            if (tbodyDatas.length > 1) {
+              tbodyDatas = [];
+            }
             // 创建thead中的th
             for (var i = 0; i < theadDatas.length; i++) {
               var th = document.createElement('th');
@@ -235,12 +271,7 @@ if (document.readyState !== 'complete') {
             var tbody = document.createElement('tbody');
             tbody.style.backgroundColor = 'rgb(240, 254, 247)';
             table.appendChild(tbody);
-            table.addEventListener('click', () => {
-              table.style.opacity = '0';
-              setTimeout(() => {
-                table.style.display = 'none';
-              }, 1000);
-            });
+
             // 创建tbody中的tr td
             for (var i = 0; i < tbodyDatas.length; i++) {
               // 创建tbody中的tr
